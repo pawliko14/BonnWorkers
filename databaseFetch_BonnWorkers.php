@@ -38,6 +38,9 @@ try
 
                  while($row = mysqli_fetch_array($result))
 				 {
+					
+					
+					 
                    $date1 = new DateTime($row['BeginDate']);
                    $date2 = "Date(".date_format($date1, 'Y').", ".((int) date_format($date1, 'm') - 1).", ".date_format($date1, 'd').", ".date_format($date1, 'H').", ".date_format($date1, 'i').", ".date_format($date1, 's').")";
 

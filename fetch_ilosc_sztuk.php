@@ -2,11 +2,13 @@
 
 $werkbon = $_POST['d'];       		// <- limit, ile danych ma zostac pobranych 10 100 brak ...
 
+//$werkbon = '922588';
+
 $connect = mysqli_connect("localhost", "root", "", "fatdb");
 
 try
 {
-                $query = "select concat(werkuren.DATUM, '   ', werkuren.GOEDGEKEURD , ' sztuk') as merged,
+                $query = "select werkuren.DATUM as merged,
 								concat(werkuren.GOEDGEKEURD,' sztuk') as GOEDGEKEURD ,
 							   concat(
 							   CASE WHEN length(werkuren.BEGINTIJDH) < 2 then concat(0, werkuren.BEGINTIJDH) else werkuren.BEGINTIJDH end ,':',
@@ -30,10 +32,10 @@ try
                         $rows = array();
                         $table = array();
                              $table['cols'] = array(
-                               array('label' => 'Godina', 'type' => 'string'),
-                               array('label' => 'Odluka', 'type' => 'string'),
-							   array('label' => 'Odluka', 'type' => 'date'),
-                               array('label' => 'glasnik', 'type' => 'date')
+                               array('label' => 'Time', 'type' => 'string'),
+                               array('label' => 'quantity', 'type' => 'string'),
+							   array('label' => 'BeginDate', 'type' => 'date'),
+                               array('label' => 'EndDate', 'type' => 'date')
                              );
 
                  while($row = mysqli_fetch_array($result))
@@ -44,10 +46,32 @@ try
                     $date3 = new DateTime($row['EndDate']);			
 					$date4 = "Date(".date_format($date3, 'Y').", ".((int) date_format($date3, 'm') - 1).", ".date_format($date3, 'd').", ".date_format($date3, 'H').", ".date_format($date3, 'i').", ".date_format($date3	, 's').")";
 
+					$goedgekuerd = $row['GOEDGEKEURD'];
+					if($goedgekuerd == '0 sztuk')
+					{
+						$goedgekuerd = "0 sztuk";
+					}
+					else if($goedgekuerd == '1 sztuk')
+					{
+						$goedgekuerd = "1 sztuka";
+					}
+					else if($goedgekuerd == '2 sztuk')
+					{
+						$goedgekuerd = "2 sztuki";
+					}
+					else if($goedgekuerd == '3 sztuk')
+					{
+						$goedgekuerd = "3 sztuki";
+					}
+					else if($goedgekuerd == '4 sztuk')
+					{
+						$goedgekuerd = "4 sztuki";
+					}
+					
 	
 					$temp = array();
                         $temp[] = array('v' => (string) $row['merged']);
-						 $temp[] = array('v' => (string) $row['GOEDGEKEURD']);
+						 $temp[] = array('v' => (string) $goedgekuerd );
                         $temp[] = array('v' => (string) $date2);
                         $temp[] = array('v' => (string) $date4);
                         $rows[] = array('c' => $temp);

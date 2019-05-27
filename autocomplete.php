@@ -7,7 +7,8 @@ $connect = mysqli_connect("localhost", "root", "", "fatdb");
 
 
 $query ="select concat(HacoSoftnumber,'   ', nazwisko_imie) as HacoSoftnumber from fat.cards_name_surname_nrhacosoft
-		       where HacoSoftnumber <> 0 and HacoSoftnumber like '%$searchTerm%'";
+		       where HacoSoftnumber <> 0 and( HacoSoftnumber like '%$searchTerm%' or fat.cards_name_surname_nrhacosoft.nazwisko_imie
+		        like '%$searchTerm%')";
 			   
  $result = mysqli_query($connect, $query);
 			   

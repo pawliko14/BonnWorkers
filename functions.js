@@ -1,375 +1,592 @@
-function changeColorRedGreen(data)
- {
-	 var today = new Date();
-											
-			// sprawdza czy istnieje pierwszy rekord, jesli nie
-										//	to ustawia na czaerwony bez definiowania 'lastdate' itp
-									if(data.wg[0] == 'undefined' || data.wg[0] == null)
-									{
-										console.log("data is undefined!!!");
-										document.getElementById("collecting").style.background='#e50000';
-
-									}
-									else
-									{
-										var lastdate = data.wg[0].c[0].v;					
-										var diff = today.getTime()/1000 - lastdate.getTime()/1000;
-																			
-										if(diff > '121') {										
-											document.getElementById("collecting").style.background='#e50000';											
-										}
-										else{
-											document.getElementById("collecting").style.background='#32CD32';
-										}
-									}
- }
- 
- 
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
-function myFunction() {
-  document.getElementById("myDropdown").classList.toggle("show");
-}
-
-
-// Close the dropdown if the user clicks outside of it
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
-
-   function changeColor(a,b) {
-	   
-	    document.getElementById('a_energy').style.color   = "#000000"; // forecolor		
-		document.getElementById('a_voltage').style.color  = "#000000"; // forecolor
-		document.getElementById('a_current').style.color  = "#000000"; // forecolor
-		document.getElementById('a_freq').style.color     = "#000000"; // forecolor	
-		document.getElementById('a_apperent').style.color = "#000000"; // forecolor	
-		document.getElementById('a_active').style.color   = "#000000"; // forecolor	
-	   
-	   if(b.includes("Energy"))
-	   {
-		  document.getElementById('a_energy').style.color = "red"; // forecolor			   	   			
-	   }
-	   else if(b.includes("Voltage"))
-	   {
-		   document.getElementById('a_voltage').style.color = "red"; // forecolor
-	   }
-	   else if(b.includes("Current"))
-	   {
-		   document.getElementById('a_current').style.color = "red"; // forecolor
-	   }
-	    else if(b.includes("Frequency"))
-	   {
-		   document.getElementById('a_freq').style.color = "red"; // forecolor
-	   }
-	    else if(b.includes("Apperent"))
-	   {
-		   document.getElementById('a_apperent').style.color = "red"; // forecolor
-	   }
-	    else if(b.includes("Active"))
-	   {
-		   document.getElementById('a_active').style.color = "red"; // forecolor
-	   }
-		   
-	   document.getElementById("column").innerHTML = b+a;
-			   	 funkcja_ajax(a,'9');
-
-        return false;
-    }  
-	
-	function funkcja_ajax(maszyna, przedzial) {
-			
-			// dane stockowe - pozniej sa nadpisywane
-			var value_to_send = 2000;
-			var Limit_danych = 50;
-			var Ktora_maszyna = maszyna;
-			var Przedzial_czasu = przedzial; // dni
-			var titlee = 'Energy tralala';
-			var parametr = 'PowerConsumption';
-			var tekst = ' Energy Consumption in kWh';
-				
-					
-			var temp = '1';
-			// "#ff0000;
-			var d1 = document.getElementById('a_current').style.color;
-			var d2 = document.getElementById('a_energy').style.color;
-			var d3 =  document.getElementById('a_voltage').style.color;
-			var d4 = document.getElementById('a_freq').style.color;
-			var d5 = document.getElementById('a_apperent').style.color;
-			var d6 = document.getElementById('a_active').style.color;
-
-			if(d1 == 'red' )
-			{
-				parametr = 'Current';
-				tekst = ' Current usage in A';				
-				temp = '1';			
-			}
-					
-			if(d2 == 'red' )
-			{
-				parametr = 'PowerConsumption';
-				tekst = ' Energy Consumption in kWh';
-				temp = '2';
-			}
-			if( d3 == 'red')
-			{			
-				parametr = 'Voltage';
-				tekst = ' Voltage level in V';		
-				temp = '3';
-			}
-			
-			if( d4 == 'red')
-			{
-				parametr = 'Frequency';
-				tekst = ' Frequency level in Hz';		
-				temp = '4';
-			}
-			if( d5 == 'red')
-			{
-				parametr = 'Calk_moc_pozorna';
-				tekst = ' Apperent power in W';
-				temp = '5';
-			}
-			
-			if( d6 == 'red')
-			{
-				parametr = 'Calk_moc_czynna';
-				tekst = ' Active power in W';		
-				temp = '6';
-			}
-				   
-				   
-			if(przedzial == 0 )
-			{
-				titlee = 'Energy consumption with all collected measurments';
-				if(temp == 0)
-				{
-					titlee = 'Voltage level with all collected measurments';
-				}
-				else if(temp == 1)
-				{
-					titlee = 'Current level with all collected measurments';
-				}
-				else if(temp == 2)
-				{
-					titlee = 'Energy Consumptionwith all collected measurments';
-				}
-				else if(temp == 3)
-				{
-					titlee = 'Voltage usage with all collected measurments';
-				}
-				else if(temp == 4)
-				{
-					titlee = 'Frequency level with all collected measurments';
-				}
-				else if(temp == 5)
-				{
-					titlee = 'Apperent energy with all collected measurments';
-				}
-				else if(temp == 6)
-				{
-					titlee = 'Active energy with all collected measurments';
-				}
-				
-			}
-			else if (przedzial == 30)
-			{
-				titlee = 'Energy consumption in last 30 days';
-				if(temp == 0)
-				{
-					titlee = 'Voltage level in last 30 days';
-				}
-				else if(temp == 1)
-				{
-					titlee = 'Current level in last 30 days';
-				}
-				else if(temp == 2)
-				{
-					titlee = 'Energy Consumption in last 30 days';
-				}
-				else if(temp == 3)
-				{
-					titlee = 'Voltage usage in last 30 days';
-				}
-				else if(temp == 4)
-				{
-					titlee = 'Frequency level in last 30 days';
-				}
-				else if(temp == 5)
-				{
-					titlee = 'Apperent energy in last 30 days';
-				}
-				else if(temp == 6)
-				{
-					titlee = 'Active energy in last 30 days';
-				}
-			}
-			else if (przedzial == 1)
-			{
-				titlee = 'Energy consumtion from the previous day';
-				if(temp == 0)
-				{
-					titlee = 'Voltage level from the previous day';
-				}
-				else if(temp == 1)
-				{
-					titlee = 'Current level from the previous day';
-				}
-				else if(temp == 2)
-				{
-					titlee = 'Energy Consumption from the previous day';
-				}
-				else if(temp == 3)
-				{
-					titlee = 'Voltage usage from the previous day';
-				}
-				else if(temp == 4)
-				{
-					titlee = 'Frequency level from the previous day';
-				}
-				else if(temp == 5)
-				{
-					titlee = 'Apperent energy from the previous day';
-				}
-				else if(temp == 6)
-				{
-					titlee = 'Active energy from the previous day';
-				}
-				
-			}
-			else if (przedzial == 7)
-			{
-				titlee = 'Energy conumption in last 7 days';
-				if(temp == 0)
-				{
-					titlee = 'Voltage level in last 7 days';
-				}
-				else if(temp == 1)
-				{
-					titlee = 'Current level in last 7 days';
-				}
-				else if(temp == 2)
-				{
-					titlee = 'Energy Consumption in last 7 days';
-				}
-				else if(temp == 3)
-				{
-					titlee = 'Voltage usage in last 7 days';
-				}
-				else if(temp == 4)
-				{
-					titlee = 'Frequency level in last 7 days';
-				}
-				else if(temp == 5)
-				{
-					titlee = 'Apperent energy in last 7 days';
-				}
-				else if(temp == 6)
-				{
-					titlee = 'Active energy in last 7 days';
-				}
-			}
-			else if (przedzial == 9)
-			{
-				titlee = 'Todays power consumption';
-				if(temp == 0)
-				{
-					titlee = 'todays voltage level';
-				}
-				else if(temp == 1)
-				{
-					titlee = 'todays Current level';
-				}
-				else if(temp == 2)
-				{
-					titlee = 'todays Energy Consumption';
-				}
-				else if(temp == 3)
-				{
-					titlee = 'todays Voltage usage';
-				}
-				else if(temp == 4)
-				{
-					titlee = 'todays Frequency level';
-				}
-				else if(temp == 5)
-				{
-					titlee = 'todays Apperent energy';
-				}
-				else if(temp == 6)
-				{
-					titlee = 'todays Active energy ';
-				}
-			}
-				   		
-            $.ajax({
+function funkcja_ajax(data_przedzial,nazwisko_imie, ile_row,NazwaTabeli)
+{
+	  document.getElementById("demo").innerHTML = "Work bonn for HacoSoftnumber: " + nazwisko_imie + ".";
+	  
+	 console.log("dataPrzedzial " + data_przedzial + " nazwisko_imie : " + nazwisko_imie + ",  ile_row : " + ile_row + ", nawatabeli: "+ NazwaTabeli);
+	  
+	   $.ajax({
                 type: "POST",   			// 	post i get dzialaja
-                url: "databaseFetch.php" ,
-                data:  {h: value_to_send,
-						Limit: Limit_danych,
-						Ktora: Ktora_maszyna,
-						Przedzial: Przedzial_czasu,
-						Wartosc: parametr,
-						label: tekst
+                url: "databaseFetch_BonnWorkers.php" ,
+                data:  {d: data_przedzial,
+						n: nazwisko_imie
 						},
                 success : function(result) { 
 				
-									var arr=JSON.parse(result);
-											
-									// trzeba pozniej sprawdzic czy to jest konieczne								
-									var data = new google.visualization.DataTable(arr)
-									{
-										refreshInterval: 5
-									};
-									
-									var dateFormatter = new google.visualization.DateFormat({pattern: 'dd-MM-YYY HH:mm'});
-										dateFormatter.format(data, 0);
-									
-									
-								    var options = {
-									 explorer: {
-									    actions: ['dragToZoom', 'rightClickToReset'],
-										axis: 'horizontal',
-										keepInBounds: false,
-										maxZoomIn: 32.0
-									},
-									 title: titlee,
-									 pointSize: 4,
-									 legend:{position:'bottom'},
-									 curveType: 'function',
-									 chartArea:{width:'80%', height:'80%'},
-									 hAxis: {
-										textStyle: {
-											bold: true
-										}
-									 },
-									 backgroundColor: { fill:'transparent'},
-									 
-									 vAxis:
-									 {
-										 textStyle: {
-											bold: true
-										 }
-									 }
+				console.log("arraj sprawdzic pustki: "+ result);
+					var arr=JSON.parse(result);
+					
+					
+					console.log("array length:" + Object.keys(arr.rows).length)
+					
+					
+					// jezeli sa puste komorki w tabeli, wyszukaj i usun 
+					if(Object.keys(arr.rows).length == 0 )
+					{
+						document.getElementById(NazwaTabeli).rows[ile_row].deleteCell(0);					
+					}
+					// jesli w komorce jest jakas data to nie usuwaj i wypelnij googlechartem
+					if(Object.keys(arr.rows).length >  0)
+					{
 
-									};
+															
+					 google.charts.load("current", {packages:["timeline"]});
+					  google.charts.setOnLoadCallback(drawChart);
+					  function drawChart() 
+					  {					   // tutaj sprawdzic jak usunac te rowy gdzie nie bedzie danych z jquery
+						var container = document.getElementById(NazwaTabeli).rows[ile_row];
+						
 
-									var chart = new google.visualization.LineChart(document.getElementById('line_chart'));
-									chart.draw(data, options);
-									changeColorRedGreen(data);
+						
+						
+						var chart = new google.visualization.Timeline(container);
+						var dataTable = new google.visualization.DataTable();
+						var data = new google.visualization.DataTable(result);
 
+						
+					
+			 var return_first = function () {
+				 
+				var tmp = null;
+				$.ajax({
+					async: false,
+					type: "POST", 
+					url: "testPHP.php",
+					datatype: "json",
+					data:  {d: data_przedzial,
+							xx:nazwisko_imie},
+					success: function (data) {
+						
+						var q=JSON.parse(data);
+						tmp = q;
+					}
+				});
+				return tmp;
+			};
+			
+			var return_last = function () {
+				 			
+				var tmp = null;
+				$.ajax({
+					async: false,
+					type: "POST", 
+					url: "testPHP2.php",
+					datatype: "json",
+					data:  {xz: data_przedzial,
+							xx: nazwisko_imie},
+					success: function (data) {
+						
+						var q=JSON.parse(data);
+						tmp = q;
+					}
+					
+				});
+				return tmp;
+			};
 				
+		
+	data.addRows([[  'WorkTime ',data_przedzial, new Date(return_first()), new Date(return_last()) ]]);
+						
+		  var options = {
+						 hAxis: { format: 'HH:mm' }
+					  };  
+						
+			chart.draw(data,options);
+				    }
+                
+					}
+				}
+            });	  
+}
+
+
+function funkcja_ajax_werkbon(nazwisko_imie)
+{	 	  
+	   $.ajax({
+                type: "POST",   		
+                url: "GetByBonnNumber.php" ,
+                data:  {d: nazwisko_imie
+						},
+                success : function(result) { 
+				
+				
+					var arr=JSON.parse(result);
+					console.log("test: " + arr);
+
+															
+					 google.charts.load("current", {packages:["timeline"]});
+					  google.charts.setOnLoadCallback(drawChart);
+					  function drawChart() 
+					  {					  
+						var container = document.getElementById('chart');
+												
+						var chart = new google.visualization.Timeline(container);
+						var dataTable = new google.visualization.DataTable();
+						var data = new google.visualization.DataTable(result);
+
+					  var options = {
+						height: 450,
+						timeline: {
+						  groupByRowLabel: true
+						}
+					  };
+	
+				chart.draw(data,options);
+				    }
                 }
-            });
+            });	  
+}
+
+
+function funkcja_ajax_ilosc_sztuk(werkbon)
+{	  
+	   $.ajax({
+                type: "POST",   			// 	post i get dzialaja
+                url: "fetch_ilosc_sztuk.php" ,
+                data:  {d: werkbon
+						},
+                success : function(result) { 
+				
+				
+					var arr=JSON.parse(result);
+					console.log("test: " + arr);
+
+															
+					 google.charts.load("current", {packages:["timeline"]});
+					  google.charts.setOnLoadCallback(drawChart);
+					  function drawChart() 
+					  {					  
+						var container = document.getElementById('ilosc_sztuk');
+						
+						
+						var chart = new google.visualization.Timeline(container);
+						var dataTable = new google.visualization.DataTable();
+						var data = new google.visualization.DataTable(result);
+
+					 var options = {
+						 hAxis: { format: 'HH:mm' }
+					  };
+	
+				chart.draw(data,options);
+				    }
+                }
+            });  
+}
+
+
+	function submit()
+	{
+		zmienRozmiar();
+		
+		var index;
+		var dataPocz = document.getElementById("dataDnia").value;
+		var dataKon = document.getElementById("dataDniaKoniec").value;
+
+		var dateP = new Date(dataPocz);
+		var dateK = new Date(dataKon);
+		
+		var diff = Math.abs(dateK-dateP);
+		var diffDays = diff/86400000; // bedzie zawsze o 1 mniejsze
+		
+		// usuniecie wszystkich poprzednich przed dodaniem
+		var Parent = document.getElementById("myTable");
+			while(Parent.hasChildNodes())
+			{
+			   Parent.removeChild(Parent.firstChild);
+			}
+		
+			// dodanei rowow w zaleznosci od ilosci dni
+				for(i = 0 ; i < diffDays+1;i++ )
+				{	
+				  var table = document.getElementById("myTable");
+				  var row = table.insertRow(0);
+				  var cell1 = row.insertCell(0);
+				  cell1.innerHTML = "NEW CELL1";
+				  
+				}
+		
+		var datePTimesTamp = dateP.getTime();
+		var dateKTimesTamp = dateK.getTime();
+		console.log("timestamp: "+ datePTimesTamp);
+		
+		var xx = [];
+		for(var i = 0 ; i < diffDays+1 ; i++)
+		{
+			var d = datePTimesTamp+ (86400000*i);
+			
+				var todate=new Date(d).getDate();
+								
+					if(todate.length = 1)
+					{
+						todate = '0' + todate;
+						todate = todate.slice(-2)
+					}
+					
+				var tomonth=new Date(d).getMonth()+1;
+					if(tomonth.length = 1)
+					{
+						tomonth = '0' + tomonth;
+					}
+				var toyear=new Date(d).getFullYear();
+				var original = toyear+'-'+tomonth+'-'+todate;
+				
+				
+			
+			xx.push(original);
+		}		
+		console.log("xxxxx: " + xx[1]);
+			
+		var hacoN = document.getElementById("HacoSoftnumber").value;
+		
+		var fields = hacoN.split("  ");
+		
+		console.log("hacoSoft NUmber uciete: "+ fields[0]);
+		
+		for(index = 0; index < diffDays+1; index++)
+		{
+			funkcja_ajax(xx[index],hacoN,index, 'myTable');
+		}
+		
+		zmniejszIloscCell();
+	}
+
+	
+	function zmienRozmiar()
+	{
+		 var div = document.getElementById("wrapper");
+				if(div) {
+					div.style.height = "600px";
+				}
+	}
+	
+	function zmniejszIloscCell()
+	{
+		  var table = document.getElementById('myTable');
+			for (var r = 0, n = table.rows.length; r < n; r++) {
+				for (var c = 0, m = table.rows[r].cells.length; c < m; c++) {
+					console.log("Sprawdzenie "+ c + "  " + table.rows[r].cells[c].innerHTML);
         }
+    }
+	}
+	
+	
+	function submit_by_werkbon()
+	{
+			
+		var w = document.getElementById('WerkbonNumber').value;
+
+		document.getElementById('tekst_chart1').style.display = "inline-block";
+		document.getElementById('tekst_chart2').style.display = "inline-block";
+		document.getElementById('tekst_chart3').style.display = "inline-block";
+
+		console.log(w);
+		
+		funkcja_ajax_werkbon(w)
+		
+		PieChartTest(w);
+		
+		funkcja_ajax_ilosc_sztuk(w);
+		
+		czas_teo_rze(w);
+		
+		czas_teo_rze_bez_install(w);
+	}
+	
+	
+	function PieChartTest(Bonn)
+{															
+						google.charts.load("current", {packages:["corechart"]});
+						google.charts.setOnLoadCallback(drawChart);
+						function drawChart() 
+						{
+						var dataTable = new google.visualization.DataTable();
+						
+						 var jsonData = $.ajax({
+							  type: "POST",
+							  url: "PieChart.php",
+							  dataType: "json",
+							  async: false,
+							  data: { x: Bonn },					
+							  }).responseText;
+							  
+					if(jsonData == 'Bon pracy NIE JEST  na 90')
+					{
+					document.getElementById('Piechart').innerHTML= "Bon pracy NIE JEST  na 90";
+
+					}
+							  
+					else	
+					{
+					 // konwersja na floatval
+							 var arr = JSON.parse(jsonData);
+							 for(var i = 0;i <Object.keys(arr.rows).length;i++){
+								arr.rows[i].c[1].v= parseFloat(arr.rows[i].c[1].v)
+								console.log(arr.rows[i].c[1].v)	;
+							}
+							 
+							 console.log(jsonData);
+							 data2 = new google.visualization.DataTable(arr);
+
+						
+					var options = {
+						  title: 'Employee effenciency'
+						   ,chartArea:{left:100,width:"100%",height:"70%"}
+						  , legend: { position: 'right', alignment: 'start' }
+						  ,height: 600
+						  ,width: 700
+						  ,is3D:true
+						 
+						};
+					
+				
+					var chart = new google.visualization.PieChart(document.getElementById('Piechart'));
+					chart.draw(data2,options);
+					
+				    }	
+					}						
+						
+													 
+							
+}
 
 
+function czas_teo_rze(werkbon){
+		
+		  $.ajax({
+                type: "POST",   			// 	post i get dzialaja
+                url: "Czas_teo_rze.php" ,
+                data:  {d:werkbon
+						},
+						
+                success : function(result) { 
+							
+					var arr=JSON.parse(result);
+
+					var teoret =timeConvert(arr.rows[0].c[0].v);
+					var rzecz =timeConvert(arr.rows[0].c[1].v);
+					var procent = (arr.rows[0].c[2].v + "%");
+
+											
+
+				document.getElementById('teoretyczny').innerHTML= "Czas teoretyczny: " + "<br />" + teoret;
+				document.getElementById('rzeczywisty').innerHTML= "Czes rzeczywisty: "+ "<br />" +rzecz;
+				document.getElementById('skutecznosc').innerHTML= "wydajnosc pracownika: "+ "<br />" + procent;
+
+							
+                }
+            });  
+		
+		
+	}
+	
+	function czas_teo_rze_bez_install(werkbon){
+		
+		  $.ajax({
+                type: "POST",   			// 	post i get dzialaja
+                url: "Czas_teo_rze_bez_Instalminuten.php" ,
+                data:  {d:werkbon
+						},
+						
+                success : function(result) { 
+						
+					var arr=JSON.parse(result);				
+
+					var teoret =timeConvert(arr.rows[0].c[0].v);
+					var rzecz =timeConvert(arr.rows[0].c[1].v);
+					var procent = (arr.rows[0].c[2].v + "%");
+
+											
+
+			//	document.getElementById('teoretycznyBez').innerHTML= "Czas teoretyczny bez: " + "<br />" + teoret;
+			//	document.getElementById('rzeczywistyBez').innerHTML= "Czes rzeczywisty bez: "+ "<br />" +rzecz;
+				document.getElementById('skutecznoscBez').innerHTML= "wydajnosc pracownika bez ustawiania maszyny: "+ "<br />" + procent;
+
+							
+                }
+            });  
+		
+		
+	}
+	
+	function timeConvert(n) {
+		var num = n;
+		var hours = (num / 60);
+		var rhours = Math.floor(hours);
+		var minutes = (hours - rhours) * 60;
+		var rminutes = Math.round(minutes);
+		return  rhours + " hour(s) and " + rminutes + " minute(s).";
+		}
+
+		
+		
+function hide(idDiva, minH, maxH,buttonHide)
+{
+	  var x = document.getElementById(idDiva);
+		  if (x.style.display === "none") {
+			x.style.display = "block";
+			document.getElementById(buttonHide).textContent = "Hide";
+			
+
+			var div = document.getElementById("wrapper");
+				if(div) {
+					div.style.height = maxH;
+				}
+	
+			
+		  } else {
+			x.style.display = "none";
+			document.getElementById(buttonHide).textContent = "Show";
+
+				var div = document.getElementById("wrapper");
+				if(div) {
+					div.style.height = minH;
+				}
+		  }
+}
+
+
+
+
+
+            
+            function addRow()
+            {
+                // get input values
+                var fname = document.getElementById("fname").value;
+                 var lname = document.getElementById("lname").value;
+                  var age = document.getElementById("age").value;
+                  
+                  // get the html table
+                  // 0 = the first table
+                  var table = document.getElementById("table1");
+                  
+                  // add new empty row to the table
+                  // 0 = in the top 
+                  // table.rows.length = the end
+                  // table.rows.length/2+1 = the center
+                  var newRow = table.insertRow(0);
+                  
+                  // add cells to the row
+                  var cel1 = newRow.insertCell(0);
+               //   var cel2 = newRow.insertCell(1);
+              //    var cel3 = newRow.insertCell(2);
+                  
+                  // add values to the cells
+                  cel1.innerHTML = fname;
+               //   cel2.innerHTML = lname;
+                //  cel3.innerHTML = age;
+            }
+			
+			function addRowJQuery()
+			{
+				
+				
+			//	var projekt = '190517'
+				var projekt = document.getElementById("ProjectNumber").value;
+				console.log(projekt);
+				
+				$.ajax({
+                type: "GET",   			// 	post i get dzialaja
+                url: "fetch_database_by_project_number.php" ,
+                data:  {xxx: projekt
+						},
+						
+                success : function(result) { 
+							
+					var arr=JSON.parse(result);
+
+					var arr_length = arr.rows.length; // dobrze
+					
+					
+						// usuniecie wszystkich poprzednich przed dodaniem
+						var Parent = document.getElementById("table1");
+						while(Parent.hasChildNodes())
+							{
+							   Parent.removeChild(Parent.firstChild);
+							}
+						
+							
+			 // cos jak TH ale zbudowane na Cell
+				var table = document.getElementById("table1");
+						var row = table.insertRow(0);
+						  
+						  var cell1 = row.insertCell(0);
+						  var cell2 = row.insertCell(1);
+						  var cell3 = row.insertCell(2);
+						  var cell4 = row.insertCell(3);
+						  var cell5 = row.insertCell(4);
+						  
+						   cell1.style.height = "20px";
+						  cell2.style.height = "20px";
+						  cell3.style.height = "20px";
+						  cell4.style.height = "20px";
+						  cell5.style.height = "20px";
+						  
+							cell1.innerHTML ="Project";
+					    	 cell2.innerHTML = "Werkbonnumber";
+							cell3.innerHTML = "Status";
+							cell4.innerHTML = "HOEVEELHEID";
+							cell5.innerHTML = "Txt";
+					
+					var j = 0;
+					for(var i = 1 ; i < arr_length ; i++)
+					{
+						
+						  var table = document.getElementById("table1");
+							// 	var row   = table.insertRow(0); row.insertCell(0).outerHTML = "<th>First</th>";  // rather than innerHTML		  
+						  var row = table.insertRow(1);
+						  
+						  var cell1 = row.insertCell(0);
+						  var cell2 = row.insertCell(1);
+						  var cell3 = row.insertCell(2);
+						  var cell4 = row.insertCell(3);
+						  var cell5 = row.insertCell(4);
+						  
+						 console.log("result: " +" i: "+ i + " -- "+ arr.rows[i].c[j].v);
+						  
+						  
+						  cell1.innerHTML = arr.rows[i].c[0].v;
+					    	 cell2.innerHTML = arr.rows[i].c[1].v
+					      cell3.innerHTML = arr.rows[i].c[2].v
+						  cell4.innerHTML = arr.rows[i].c[3].v
+						  cell5.innerHTML = arr.rows[i].c[4].v
+						  
+						  cell1.style.height = "20px";
+						//	cell1.onclick = function(){testfun(3+1);};
+						  cell2.style.height = "20px";
+						  cell3.style.height = "20px";
+						  cell4.style.height = "20px";
+						  cell5.style.height = "20px";
+						  
+						  cell1.style.textAlign = "center";
+						  cell2.style.textAlign = "center";
+						  cell3.style.textAlign = "center";
+						  cell4.style.textAlign = "center";
+						  cell5.style.textAlign = "center";
+
+						  
+
+				  
+					}			
+                }
+            });  
+			}
+            
+
+			
+			
+  function testfun(komorka)
+   {
+	   console.log("test + ktora komorka: "+ komorka);
+					var table = document.getElementById("table1");
+							// 	var row   = table.insertRow(0); row.insertCell(0).outerHTML = "<th>First</th>";  // rather than innerHTML		  
+						  var row = table.insertRow(komorka);
+						  
+						  var cell1 = row.insertCell(0);
+						//  cell1.style.width = "200px";
+						  cell1.colSpan = 5;
+						  funkcja_ajax("2019-05-06",48321, 4, 'table1');
+					//	  var cell2 = row.insertCell(1);
+					//	  var cell3 = row.insertCell(2);
+					//	  var cell4 = row.insertCell(3);
+						//  var cell5 = row.insertCell(4);
+   }			

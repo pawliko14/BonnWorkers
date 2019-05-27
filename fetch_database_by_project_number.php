@@ -1,15 +1,16 @@
 <?php
 
-//$werkbonn = $_POST['d'];       		// <- limit, ile danych ma zostac pobranych 10 100 brak ...
 
-$ProjectN = '190517';
+$ProjectN = $_GET['xxx'];       		// <- limit, ile danych ma zostac pobranych 10 100 brak ...
+
+//$ProjectN = '190520';
 
 $connect = mysqli_connect("localhost", "root", "", "fatdb");
 
 try
 {
                 $query = "select concat(afdeling,'/',AFDELINGSEQ) as PROJECT ,WERKBONNUMMER,STATUS,HOEVEELHEID,concat(OPERATIE,' - ' ,CFTEKST) as txt
-				from werkbon where AFDELINGSEQ like '%190517%' ";
+				from werkbon where AFDELINGSEQ like '%$ProjectN%' ";
 									   
 				$result = mysqli_query($connect, $query);
 
@@ -44,6 +45,6 @@ try
 		catch(PDOException $e) {
                echo 'ERROR: ' . $e->getMessage();
                    }
-				   
+			   
 				   
 ?>
